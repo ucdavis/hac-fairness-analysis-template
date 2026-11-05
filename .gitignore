@@ -1,0 +1,35 @@
+# Clinical or otherwise sensitive input data
+data/
+*.csv
+*.tsv
+*.xlsx
+*.xls
+*.parquet
+*.pq
+
+# Generated analysis artifacts
+outputs/
+results/
+reports/
+
+# Jupyter and Python
+.ipynb_checkpoints/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Local environments and configuration
+.venv/
+venv/
+env/
+.env
+.env.*
+
+# Editors and operating systems
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
