@@ -1,0 +1,18 @@
+cff-version: 1.2.0
+message: >-
+  If you reference this software in scholarly work, please cite it using
+  the metadata below. Citation does not grant a license to reuse the code.
+title: Fairness Analysis Methods Template
+authors:
+  - family-names: Ren
+    given-names: Yunyi
+    affiliation: University of California, Davis
+  - family-names: Taylor
+    given-names: Sandra
+    affiliation: University of California, Davis
+repository-code: https://github.com/ucdavis/hac-fairness-analysis-template
+keywords:
+  - algorithmic fairness
+  - clinical prediction models
+  - health equity
+  - biostatistics

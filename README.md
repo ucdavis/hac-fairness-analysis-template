@@ -43,7 +43,7 @@ Optional variables:
 
 | Template variable | Meaning |
 | --- | --- |
-| `id_var` | Patient or encounter identifier; generated if omitted |
+| `id_var` | Patient or encounter identifier; a row identifier is generated if omitted |
 | `race_ethnicity` | Race/ethnicity group |
 | `gender_identity` | Sex or gender group, according to the approved analysis definition |
 | `age_group` | Numeric age or an existing age-group label |
@@ -56,16 +56,38 @@ Columns declared in `column_mapping` but absent from the input are ignored when 
 
 1. Keep the input data outside the repository when possible.
 2. Open `FairnessAnalysisMethodsTemplate.ipynb`.
-3. Edit the first configuration cell:
+3. Edit the first configuration code cell—the only notebook cell users need to modify:
    - `data_dir` and `data_name`
    - `model_name` and `project_info`
+   - `id_unit` (`"patient"` or `"encounter"`) when `id_var` is mapped
    - `column_mapping`
-   - threshold, resampling counts, minimum group size, and optional subgroup filters
+   - `classification_threshold`, resampling counts, minimum group size, and optional subgroup filters
 4. Leave `subset_filters = {}` to analyze all eligible rows.
 5. Run the notebook from top to bottom.
 6. Review warnings, excluded-row counts, group sizes, assumptions, and all results before interpretation.
 
 The notebook renders results inline. It does not save datasets or reports automatically.
+
+`id_unit` controls the labels and interpretation of ID-level prevalence and clustered
+standard errors. Use `"patient"` only when `id_var` is a stable patient identifier. Use
+`"encounter"` for encounter identifiers. If `id_var` is omitted, the notebook generates
+one ID per row and labels the corresponding summary as row-level.
+
+Groups with fewer than `MIN_GROUP_N` usable observations or without both outcome classes
+are reported as ineligible and skipped. If no demographic variables are supplied, the
+notebook completes the data-validation and setup sections and skips demographic analyses.
+
+## Validation
+
+The regression suite executes every notebook code cell against synthetic, non-patient data,
+including a normal analysis, an undersized cohort, and an input with no demographic fields:
+
+```powershell
+python -m unittest discover -s tests -v
+```
+
+These tests check software behavior; they do not constitute clinical or statistical
+validation of a model, dataset, threshold, or fairness conclusion.
 
 ## Important methodological limitations
 
@@ -74,6 +96,8 @@ The notebook renders results inline. It does not save datasets or reports automa
 - Nonsignificant findings do not demonstrate equivalence, especially for small groups.
 - Results depend on data quality, outcome definition, threshold choice, subgroup definitions, missingness, and sample size.
 - Multiple comparisons, sparse outcomes, calibration instability, and intersectional harms require explicit consideration.
+- Pairwise inference affected by perfect separation is marked unavailable rather than reported from unidentified model parameters.
+- Pairwise performance p-values are adjusted within each metric; the overall p-value table is explicitly unadjusted.
 - HPI and other area-level measures should not be interpreted as individual-level characteristics.
 - The default minimum group size is a screening rule, not a universal adequacy standard.
 
@@ -82,20 +106,26 @@ The notebook renders results inline. It does not save datasets or reports automa
 - `FairnessAnalysisMethodsTemplate.ipynb` — configurable analysis notebook
 - `requirements.txt` — pinned runtime and input-format dependencies
 - `.gitignore` — safeguards against committing common sensitive/generated files
-- `LICENSE-NOTICE.md` — current licensing status and approval requirement
-- `RELEASE_CHECKLIST.md` — items to confirm before making the repository public
+- `CITATION.cff` — machine-readable software citation metadata
+- `LICENSE-NOTICE.md` — notice that no reuse license is granted
+- `RELEASE_APPROVAL.md` — internal publication-release record
+- `tests/` — synthetic-data regression tests for the notebook
 
-## Citation
+## How to cite
 
-The accompanying methods manuscript is:
+To cite this software before a versioned release or DOI is available, use:
+
+> Ren, Y., & Taylor, S. (2026). *Fairness Analysis Methods Template* [Computer software]. University of California, Davis. https://github.com/ucdavis/hac-fairness-analysis-template
+
+Machine-readable citation metadata are provided in `CITATION.cff`. When using the methods,
+also cite the accompanying manuscript once its final bibliographic information is available:
 
 > Taylor et al. *From Performance Metrics to Patient Consequences: A Framework for Assessing Fairness in Clinical Prediction Models*. Forthcoming.
 
-Add the final author list, year, journal, DOI, and a `CITATION.cff` file when the publication information is available and approved.
+## Reuse and license status
 
-## License status
-
-No open-source license has been granted yet. See `LICENSE-NOTICE.md` before copying, redistributing, or modifying this work outside authorized UC Davis use.
-
-Complete `RELEASE_CHECKLIST.md` before changing the repository visibility to public.
+This repository is publicly visible for scholarly reference and citation, but no open-source
+or other reuse license is granted. Citation does not grant permission to copy, modify,
+redistribute, or incorporate the code into another project. Default copyright rules apply,
+and rights remain with the applicable copyright owner or owners. See `LICENSE-NOTICE.md`.
 

@@ -1,15 +1,18 @@
-# License pending
+# No reuse license granted
 
-No open-source license has been selected or granted for this repository.
+This repository is publicly available as companion analysis code for a scholarly publication.
+It may be referenced and cited using the instructions in `README.md` and `CITATION.cff`.
 
-Before public release, the copyright owner and the appropriate UC Davis delegated licensing or copyright authority should confirm ownership, contributor authorization, third-party dependencies or incorporated code, and the approved license terms.
+No open-source or other reuse license is granted. Citation and public visibility do not grant
+permission to copy, modify, redistribute, or incorporate the code into another project.
+Default copyright rules apply, and rights remain with the applicable copyright owner or owners.
 
-Until a license is added, the presence of source code in a public repository does not itself grant permission to copy, modify, or redistribute the work.
+The repository should not be described as open source. Anyone seeking reuse permission should
+contact the repository maintainers. UC Davis copyright review may be required if the work was
+created within University employment duties.
 
 UC guidance and contacts:
 
 - [UC Open Source Software Resources](https://security.ucop.edu/resources/open-source-software-licensing.html)
 - [UC Davis Technology Transfer Office FAQs](https://research.ucdavis.edu/research-support/technology-transfer/tto-faqs/)
 - UC Davis copyright contact: `copyright@ucdavis.edu`
-
-Replace this notice with the approved `LICENSE` file when authorization is complete, and update the README accordingly.
